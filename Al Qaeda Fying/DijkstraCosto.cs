@@ -19,6 +19,8 @@ namespace Al_Qaeda_Fying
         List<ElementoDijkstra> vD = new List<ElementoDijkstra>();
 
         List<string> vDFinal = new List<string>();
+        Dictionary<Nodo, int> nodeIndex = new Dictionary<Nodo, int>();
+        Dictionary<Nodo, ElementoDijkstra> nodeElementMap = new Dictionary<Nodo, ElementoDijkstra>();
 
         public DijkstraCosto(Grafo g, char inicio, bool conex)
         {
@@ -47,17 +49,25 @@ namespace Al_Qaeda_Fying
 
         private void iniVecDij()
         {
-            foreach (Nodo n in g.getListaNodos())
+            var nodos = g.getListaNodos();
+            infinito = 0;
+            nodeIndex.Clear();
+            nodeElementMap.Clear();
+            foreach (Nodo n in nodos)
             {
                 n.getElementoD().serReiniciado();
+                nodeIndex[n] = nodeIndex.Count;
+                nodeElementMap[n] = n.getElementoD();
             }
                 
 
-            foreach (Nodo n in g.getListaNodos())
+            foreach (Nodo n in nodos)
             {
                 vD.Add(n.getElementoD());
-                for (int i = 0; i < n.getListaAdyacencia().Count(); i++)
-                    infinito += n.getAdy(i).getPonderacionCosto();
+                foreach (Ady ady in n.getListaAdyacencia())
+                {
+                    infinito += ady.getPonderacionCosto();
+                }
             }
             foreach (ElementoDijkstra e in vD)
             {
@@ -101,15 +111,15 @@ namespace Al_Qaeda_Fying
         private void actualizarPesos(ElementoDijkstra e)
         {
             Nodo nID = e.getn();
-            for (int i = 0; i < nID.getListaAdyacencia().Count(); i++)
+            foreach (Ady ady in nID.getListaAdyacencia())
             {
-                Nodo nAdy = nID.getAdy(i).getNodo();
+                Nodo nAdy = ady.getNodo();
                 if (nAdy.getElementoD().getDefinitivo() == false)
                 {
-                    int indexAdy = g.getListaNodos().IndexOf(nAdy);
-                    if (nID.getAdy(i).getPonderacionCosto() + pesoDefi < vD[indexAdy].getPeso())
+                    int indexAdy = nodeIndex[nAdy];
+                    if (ady.getPonderacionCosto() + pesoDefi < vD[indexAdy].getPeso())
                     {
-                        vD[indexAdy].setProveniente(nID, nID.getAdy(i).getPonderacionCosto() + pesoDefi);
+                        vD[indexAdy].setProveniente(nID, ady.getPonderacionCosto() + pesoDefi);
                     }
                 }
 
@@ -135,15 +145,9 @@ namespace Al_Qaeda_Fying
                     ElementoDijkstra x = vD[i];
                     while (x.getProveniente() != null)
                     {
-                        for (int k = 0; k < vD.Count(); k++)
-                        {
-                            if (x.getProveniente() == vD[k].getn())
-                            {
-                                nueFinal += "<-" + vD[k].getn().getCiudad().getNom();
-                                x = vD[k];
-                                break;
-                            }
-                        }
+                        ElementoDijkstra siguiente = nodeElementMap[x.getProveniente()];
+                        nueFinal += "<-" + siguiente.getn().getCiudad().getNom();
+                        x = siguiente;
                     }
                     vDFinal.Add(nueFinal);
                 }
@@ -158,19 +162,9 @@ namespace Al_Qaeda_Fying
         {
             for (int i = 0; i < vD.Count(); i++)
             {
-                foreach (Nodo n in g.getListaNodos())
+                if (vD[i].getProveniente() != null)
                 {
-                    if (n.getCiudad().getNom() == vD[i].getn().getCiudad().getNom() && vD[i].getProveniente() != null)
-                    {
-                        foreach (Nodo w in g.getListaNodos())
-                        {
-                            if (w == vD[i].getProveniente())
-                            {
-                                w.setPrimKruskal(vD[i].getn().getCiudad().getNom());
-                            }
-                        }
-                    }
-
+                    vD[i].getProveniente().setPrimKruskal(vD[i].getn().getCiudad().getNom());
                 }
             }
         }
