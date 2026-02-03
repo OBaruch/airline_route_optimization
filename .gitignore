@@ -1,0 +1,13 @@
+bin/
+obj/
+*.user
+*.pdb
+*.cache
+*.suo
+*.app
+*.exe
+*.manifest
+*.application
+*.resources
+*.csproj.FileListAbsolute.txt
+*.csproj.GenerateResource.Cache
