@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AirBaruch
 {
@@ -14,7 +12,7 @@ namespace AirBaruch
         int infinito = 0;
         int pesoDefi = 0;
         bool conex = false;
-        
+
 
         List<ElementoDijkstra> vD = new List<ElementoDijkstra>();
 
