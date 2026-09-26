@@ -1,0 +1,16 @@
+# Visual Studio user and cache files
+.vs/
+*.suo
+*.userprefs
+
+# Build output produced by new builds.
+# Note: the historical bin/Debug and obj/Debug folders of the original project
+# are intentionally kept under version control (see README.md); these rules only
+# prevent new, untracked build artifacts from being added.
+[Bb]in/[Rr]elease/
+[Oo]bj/[Rr]elease/
+publish/
+
+# OS files
+Thumbs.db
+.DS_Store
