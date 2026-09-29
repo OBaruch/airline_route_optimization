@@ -53,6 +53,9 @@ Based on the code and the course folder name, the objective was to **apply data 
 ```
 airline_route_optimization/
 ├── README.md                     ← this file
+├── intent.md                     ← why: goals, non-goals, principles, decisions
+├── spec.md                       ← what: as-built specification with acceptance criteria
+├── plan.md                       ← how: phases, guardrails, definition of done
 ├── LICENSE                       ← Apache License 2.0 (original)
 ├── .gitignore
 ├── src/
@@ -134,6 +137,14 @@ The repository does not contain enough information to give a verified, working b
 No commands, versions or dependencies beyond those confirmed above are implied.
 
 ## Documentation
+
+Intent, specification and plan (read these before proposing any change):
+
+- [Intent](intent.md): why the repository exists, goals and non-goals
+- [Specification](spec.md): as-built behavior of the application, business rules, known deviations
+- [Plan](plan.md): phases, guardrails for contributors and AI agents, verification
+
+Reference documentation:
 
 - [Project context and evidence](docs/project-context.md)
 - [Architecture](docs/architecture.md)
